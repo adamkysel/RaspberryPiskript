@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../stylesheets/my.css">
+    <title>Zahrada</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <div class="container">
+        <a class="navbar-brand" href="#">Smart garden</a>
+      </div>
+    </nav>
+
+      
+        <div class="container">
+          <div class="row">
+            <div class="wrapper1 col-lg-3">
+              <h2 class="wrapper-title">Dvere</h2>
+              <div class="wrapper-text" id="motor1">Aktuálne: </div>
+              <button id="button1" type="button" class="btn custom-btn">Open/Close</button>
+            </div>
+            <div class="wrapper1 col-lg-3">
+              <h2 class="wrapper-title">Okno</h2>
+              <div class="wrapper-text" id="motor2">Aktuálne: </div>
+              <button id="button2" type="button" class="btn custom-btn">Open/Close</button>
+            </div>
+            <div class="wrapper1 col-lg-3">
+              <h2 class="wrapper-title">Zavlažovanie</h2>
+              <button id="button3" type="button" class="btn custom-btn">Zavlažiť</button>
+            </div>  
+          </div>
+    
+    
+      
+        <div class="row">
+          <div class="wrapper2 col-lg-2">
+            <h2 class="wrapper-title">50 %</h2>
+            <h3 class="wrapper-text">Vlhkosť pôdy 1</h3>
+          </div>
+          <div class="wrapper2 col-lg-2">
+            <h2 class="wrapper-title">40 %</h2>
+            <h3 class="wrapper-text">Vlhkosť pôdy 2</h3>
+          </div>
+          <div class="wrapper2 col-lg-2">
+            <h2 class="wrapper-title">30 %</h2>
+            <h3 class="wrapper-text">Vlhkosť pôdy 3</h3>
+          </div><div class="wrapper2 col-lg-2">
+            <h2 class="wrapper-title">70 %</h2>
+            <h3 class="wrapper-text">Vlhkosť pôdy 4</h3>
+          </div>
+        </div>   
+      
+            
+      <div class="row">
+        <div class="wrapper3 col-lg-5">
+          <canvas id="chartTemp">Teplota</canvas>
+          <canvas>Teplota</canvas>
+        </div>
+        <div class="wrapper3 col-lg-5">
+          <canvas id="chartHum">Vlhkosť</canvas>
+          <canvas>Vlhkosť</canvas>
+        </div>
+      </div>    
+
+      <div class="row">
+        <div class="wrapper3 col-lg-5">
+          <canvas id="chartSoil">Vlhkosť pôdy</canvas>
+          <canvas>Vlhkosť pôdy</canvas>
+        </div>
+        <div class="wrapper3 col-lg-5">
+          <canvas id="chartWater">Spotreba vody</canvas>
+          <canvas>Spotreba vody</canvas>
+        </div>
+      </div>   
+        </div>
+  
+    
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script
+			  src="https://code.jquery.com/jquery-3.4.1.min.js"
+			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			  crossorigin="anonymous"></script>
+    <script>
+      var temps = "<%= temps %>".split(",");
+      var hums = "<%= hums %>".split(",");
+      var soils1 = "<%= soils1 %>".split(",");
+      var soils2 = "<%= soils2 %>".split(",");
+      var soils3 = "<%= soils3 %>".split(",");
+      var soils4 = "<%= soils4 %>".split(",");
+      var datimes = "<%= datimes %>".split(",");
+      
+      var ctx1 = document.getElementById('chartTemp').getContext('2d');
+      var chart1 = new Chart(ctx1, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+          labels: datimes,
+          datasets: [{
+              label: 'Teplota',
+              backgroundColor: 'rgb(255, 99, 132)',
+              borderColor: 'rgb(255, 99, 132)',
+              data: temps
+          }]
+      },
+      // Configuration options go here
+      options: {}
+    }); 
+      var humi;
+      var ctx2 = document.getElementById('chartHum').getContext('2d');
+      var chart2 = new Chart(ctx2, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+          labels: datimes,
+          datasets: [{
+              label: 'Vlhkosť',
+              backgroundColor: 'rgb(255, 99, 132)',
+              borderColor: 'rgb(255, 99, 132)',
+              data: hums
+          }]
+      },
+      // Configuration options go here
+      options: {}
+    }); 
+      var soil;
+      var ctx3 = document.getElementById('chartSoil').getContext('2d');
+      var chart3 = new Chart(ctx3, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+          labels: datimes,
+          datasets: [{
+              label: 'Vlhkosť pôdy',
+              backgroundColor: 'rgb(255, 99, 132)',
+              borderColor: 'rgb(255, 99, 132)',
+              data: soils1
+          }]
+      },
+      // Configuration options go here
+      options: {}
+    }); 
+      var water;
+      var ctx4 = document.getElementById('chartWater').getContext('2d');
+      var chart4 = new Chart(ctx4, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+          labels: datimes,
+          datasets: [{
+              label: 'Spotreba vody',
+              backgroundColor: 'rgb(255, 99, 132)',
+              borderColor: 'rgb(255, 99, 132)',
+              data: temps
+          }]
+      },
+      // Configuration options go here
+      options: {}
+    }); 
+    
+
+    $( "#button1" ).click(function() {
+      console.log('btn1');
+
+      fetch('/control1', {method: 'POST'})
+        .then(function(response) {
+          if(response.ok) {
+            console.log('open ok');
+            return;
+          }
+          throw new Error('Request failed.');
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    });
+    
+    $( "#button2" ).click(function() {
+      console.log('btn2');
+
+      fetch('/control2', {method: 'POST'})
+        .then(function(response) {
+          if(response.ok) {
+            console.log('open ok');
+            return;
+          }
+          throw new Error('Request failed.');
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    });
+    
+    $( "#button3" ).click(function() {
+      console.log('btn3');
+
+      fetch('/control3', {method: 'POST'})
+        .then(function(response) {
+          if(response.ok) {
+            console.log('open ok');
+            return;
+          }
+          throw new Error('Request failed.');
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    });
+
+    setInterval(function() {
+      fetch('/state1', {method: 'GET'})
+        .then(function(response) {
+          if(response.ok) return response.json();
+          throw new Error('Request failed.');
+        })
+        .then(function(data) {
+          if(data.motor1 === "open"){
+            document.getElementById("motor1").innerHTML = "Aktuálne: otvorené";
+            document.getElementById("button1").innerHTML = "Zavrieť";
+          }
+          if(data.motor1 === "close"){
+            document.getElementById("motor1").innerHTML = "Aktuálne: zatvorené";
+            document.getElementById("button1").innerHTML = "Otvoriť";
+          }
+          if(data.motor2 === "open"){
+            document.getElementById("motor2").innerHTML = "Aktuálne: otvorené";
+            document.getElementById("button2").innerHTML = "Zavrieť";
+          }
+          if(data.motor2 === "close"){
+            document.getElementById("motor2").innerHTML = "Aktuálne: zatvorené";
+            document.getElementById("button2").innerHTML = "Otvoriť";
+          }
+          console.log(data);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }, 1000);
+
+    </script>
+  </body>
+</html>
