@@ -10,10 +10,9 @@ import board
 import busio
 import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
-relay_pin = 16
-relay_time = 10
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(relay_pin,GPIO.OUT)
+relay_pin = 16
+relay_time = 2
 #this value affects rotation speed of stepper motor
 rotation_speed = 0.001
 
@@ -30,21 +29,7 @@ chan2 = AnalogIn(ads, ADS.P2)
 chan3 = AnalogIn(ads, ADS.P3)
 
 percentage = 0
-# pins for motor1 control
-out1 = 27
-out2 = 17
-out3 = 22
-out4 = 18
-# setup pins for control
-GPIO.setup(out1,GPIO.OUT)
-GPIO.setup(out2,GPIO.OUT)
-GPIO.setup(out3,GPIO.OUT)
-GPIO.setup(out4,GPIO.OUT)
 
-GPIO.output(out1,GPIO.LOW)
-GPIO.output(out2,GPIO.LOW)
-GPIO.output(out3,GPIO.LOW)
-GPIO.output(out4,GPIO.LOW)
 
 #functions
 #function for reading commands from IBM IOT platform
@@ -75,14 +60,18 @@ def myCommandCallback(cmd):
             f = open("motor2.txt", "w")
             f.write("open")
             f.close()
+            rotate(100, 13, 6, 5, 12)
         if cmd.data["motor2"]=="close":
             f = open("motor2.txt", "w")
             f.write("close")
             f.close()
+            rotate(-100, 13, 6, 5, 12)
     if cmd.data["relay"] != state3:
         f = open("relay.txt", "w")
         f.write(cmd.data["relay"])
         f.close()
+        GPIO.setup(relay_pin,GPIO.OUT)
+        GPIO.output(relay_pin,GPIO.LOW)
         GPIO.output(relay_pin,GPIO.HIGH)
         sleep(relay_time)
         GPIO.output(relay_pin,GPIO.LOW)
@@ -94,6 +83,16 @@ def rotate(steps, pin1, pin2, pin3, pin4):
     out2 = pin2
     out3 = pin3
     out4 = pin4
+    # setup pins for control
+    GPIO.setup(out1,GPIO.OUT)
+    GPIO.setup(out2,GPIO.OUT)
+    GPIO.setup(out3,GPIO.OUT)
+    GPIO.setup(out4,GPIO.OUT)
+
+    GPIO.output(out1,GPIO.LOW)
+    GPIO.output(out2,GPIO.LOW)
+    GPIO.output(out3,GPIO.LOW)
+    GPIO.output(out4,GPIO.LOW)
     i=0
     positive=0
     negative=0
@@ -224,6 +223,10 @@ def rotate(steps, pin1, pin2, pin3, pin4):
                   i=7
                   continue
               i=i-1
+              GPIO.output(out1,GPIO.LOW)
+              GPIO.output(out2,GPIO.LOW)
+              GPIO.output(out3,GPIO.LOW)
+              GPIO.output(out4,GPIO.LOW)
 #function to get percentage of earth hummidity according to voltage on A/D converter
 def get_percentage(vol):
     if vol < 1.47:
@@ -281,6 +284,11 @@ while True:
     print(percentage2)
     print(percentage3)
     print(percentage4)
+    GPIO.setup(relay_pin,GPIO.OUT)
+    GPIO.output(relay_pin,GPIO.LOW)
+    GPIO.output(relay_pin,GPIO.HIGH)
+    sleep(relay_time)
+    GPIO.output(relay_pin,GPIO.LOW)
 
     print(temp)
     print(hum)
@@ -293,7 +301,7 @@ while True:
 
     #client.publishEvent(eventId="temp", msgFormat="json", data=temp1, qos=0, onPublish=None)
     #client.publishEvent(eventId="hum", msgFormat="json", data=hum1, qos=0, onPublish=None)
-    sleep(15)    
+    sleep(4)    
     #Read Commands from IBM platform
     client.commandCallback = myCommandCallback
 
