@@ -16,7 +16,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-custom">
       <div class="container">
-        <a class="navbar-brand" href="#">Smart garden</a>
+        <a class="navbar-brand" href="#">Záhrada</a>
       </div>
     </nav>
 
@@ -26,21 +26,22 @@
             <div class="wrapper1 col-lg-3">
               <h2 class="wrapper-title">Dvere</h2>
               <div class="wrapper-text" id="motor1">Aktuálne: </div>
-              <button id="button1" type="button" class="btn custom-btn">Open/Close</button>
+              <button id="button1" type="button" class="btn custom-btn">Otvoriť</button>
             </div>
             <div class="wrapper1 col-lg-3">
               <h2 class="wrapper-title">Okno</h2>
               <div class="wrapper-text" id="motor2">Aktuálne: </div>
-              <button id="button2" type="button" class="btn custom-btn">Open/Close</button>
+              <button id="button2" type="button" class="btn custom-btn">Otvoriť</button>
             </div>
             <div class="wrapper1 col-lg-3">
               <h2 class="wrapper-title">Zavlažovanie</h2>
+              <div class="wrapper-text"><br></div>
               <button id="button3" type="button" class="btn custom-btn">Zavlažiť</button>
             </div>  
           </div>
     
     
-      
+        <!-- 
         <div class="row">
           <div class="wrapper2 col-lg-2">
             <h2 class="wrapper-title">50 %</h2>
@@ -58,27 +59,27 @@
             <h3 class="wrapper-text">Vlhkosť pôdy 4</h3>
           </div>
         </div>   
-      
+      -->
             
       <div class="row">
         <div class="wrapper3 col-lg-5">
-          <canvas id="chartTemp">Teplota</canvas>
+          <canvas id="chartTemp">Teplota [°C]</canvas>
           <canvas>Teplota</canvas>
         </div>
         <div class="wrapper3 col-lg-5">
-          <canvas id="chartHum">Vlhkosť</canvas>
+          <canvas id="chartHum">Vlhkosť [%]</canvas>
           <canvas>Vlhkosť</canvas>
         </div>
       </div>    
 
       <div class="row">
         <div class="wrapper3 col-lg-5">
-          <canvas id="chartSoil">Vlhkosť pôdy</canvas>
+          <canvas id="chartSoil">Vlhkosť pôdy [%]</canvas>
           <canvas>Vlhkosť pôdy</canvas>
         </div>
         <div class="wrapper3 col-lg-5">
-          <canvas id="chartWater">Spotreba vody</canvas>
-          <canvas>Spotreba vody</canvas>
+          <canvas id="chartWater">Vlhkosť pôdy [%]</canvas>
+          <canvas>Vlhkosť pôdy</canvas>
         </div>
       </div>   
         </div>
@@ -114,9 +115,9 @@
         data: {
           labels: datimes,
           datasets: [{
-              label: 'Teplota',
-              backgroundColor: 'rgb(255, 99, 132)',
-              borderColor: 'rgb(255, 99, 132)',
+              label: 'Teplota [°C]',
+              backgroundColor: '#f8f814',
+              borderColor: '#f8f814',
               data: temps
           }]
       },
@@ -133,9 +134,9 @@
         data: {
           labels: datimes,
           datasets: [{
-              label: 'Vlhkosť',
-              backgroundColor: 'rgb(255, 99, 132)',
-              borderColor: 'rgb(255, 99, 132)',
+              label: 'Vlhkosť [%]',
+              backgroundColor: 'deepskyblue',
+              borderColor: 'deepskyblue',
               data: hums
           }]
       },
@@ -152,11 +153,20 @@
         data: {
           labels: datimes,
           datasets: [{
-              label: 'Vlhkosť pôdy',
-              backgroundColor: 'rgb(255, 99, 132)',
-              borderColor: 'rgb(255, 99, 132)',
+              label: 'Vlhkosť pôdy 1 [%]',
+              fill: false,
+              borderColor: 'yellow',
+              backgroundColor: 'yellow',
               data: soils1
+          },
+          {
+              label: 'Vlhkosť pôdy 2 [%]',
+              fill: false,
+              borderColor: 'blue',
+              backgroundColor: 'blue',
+              data: soils2
           }]
+          
       },
       // Configuration options go here
       options: {}
@@ -171,10 +181,17 @@
         data: {
           labels: datimes,
           datasets: [{
-              label: 'Spotreba vody',
-              backgroundColor: 'rgb(255, 99, 132)',
-              borderColor: 'rgb(255, 99, 132)',
-              data: temps
+              label: 'Vlhkosť pôdy 3 [%]',
+              fill: false,
+              borderColor: 'green',
+              backgroundColor: 'green',
+              data: soils2
+          },{
+              label: 'Vlhkosť pôdy 4 [%]',
+              fill: false,
+              borderColor: 'brown',
+              backgroundColor: 'brown',
+              data: soils2
           }]
       },
       // Configuration options go here
