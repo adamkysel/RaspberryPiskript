@@ -1,1 +1,1 @@
-# diploma
+# Skript na Raspberry Pi
